@@ -58,6 +58,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         assert button2 != null;
         button2.setOnClickListener(this);
 
+        //----跳转-----
+        Button readAndWriteBtn = (Button) findViewById(R.id.read_write);
+        readAndWriteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(this.getClass().getName(), "跳转读写练习");
+
+                Intent intent = new Intent(MainActivity.this, ReadWriteActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
