@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:id="@+id/tv_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="第一个"
+                    android:textSize="18sp"
+                    />
+                <TextView
+                    android:id="@+id/tv_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="第二个"
+                    android:textSize="18sp"
+                    />
+                <TextView
+                    android:id="@+id/tv_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="第三个"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="第一个"
+                    android:textSize="18sp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="第二个"
+                    android:textSize="18sp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="第三个"
+                    />
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="1"
+            >
+            <TableRow>
+                <TextView  android:text="  "/>
+                <TextView  android:text="open"
+
+                    />
+                <TextView  android:text="Ctrl-O"
+                    android:layout_gravity="right"
+                    />
+
+            </TableRow>
+            <TableRow>
+                <TextView  android:text="  "/>
+                <TextView  android:text="save"/>
+                <TextView  android:text="Ctrl-S"
+                    android:layout_gravity="right"
+                    />
+
+            </TableRow>
+            <TableRow>
+                <TextView  android:text="  "/>
+                <TextView  android:text="save as"/>
+                <TextView  android:text="Ctrl-Shift-O"/>
+
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black"
+                >
+            </View>
+
+
+            <TableRow>
+                <TextView  android:text="x"/>
+                <TextView  android:text="Import"/>
+                <TextView  android:text=""/>
+
+            </TableRow>
+            <TableRow>
+                <TextView  android:text="x"/>
+                <TextView  android:text="Export"/>
+                <TextView  android:text="Ctrl-E"
+                    android:layout_gravity="right"
+                    />
+
+            </TableRow>
+
+            <TextView
+                android:layout_height="1dp"
+                android:background="#000000"/>
+
+
+            <TableRow>
+                <TextView  android:text=""/>
+                <TextView  android:text="Quit"/>
+                <TextView  android:text=""
+                    />
+
+            </TableRow>
+
+        </TableLayout>
+    </LinearLayout>
+
+</LinearLayout>
