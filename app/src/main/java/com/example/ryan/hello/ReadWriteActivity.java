@@ -1,7 +1,8 @@
 package com.example.ryan.hello;
 
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,14 +12,11 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
-
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 
 /**
@@ -28,23 +26,35 @@ import java.io.IOException;
 
 public class ReadWriteActivity extends AppCompatActivity {
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
+
+    public static final String FILE_PATH = "data/data/com.example.ryan.hello/info.txt";
+    public static final String FILE_NAME = "info.txt";
+    public static final String NAME_SEPATATOR = ":";
+    public static final String SHARED_PREFERENCES_NAME = "user_info";
+    private EditText et_name;
+    private EditText et_pass;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read_write);
 
+        et_name = (EditText) findViewById(R.id.username);
+        et_pass = (EditText) findViewById(R.id.password);
+
+        try {
+            readAccount();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         Button loginBtn = (Button) findViewById(R.id.login);
+        assert loginBtn != null;
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String username = ((EditText) findViewById(R.id.username)).getText().toString();
-                String password = ((EditText) findViewById(R.id.password)).getText().toString();
+                String username = et_name.getText().toString();
+                String password = et_pass.getText().toString();
 
                 Log.i(ReadWriteActivity.class.getName(),
                         "登录成功\n用户名:" + username + "\n密码：" + password);
@@ -53,13 +63,27 @@ public class ReadWriteActivity extends AppCompatActivity {
                 CheckBox remember = (CheckBox) findViewById(R.id.remember);
                 if (remember.isChecked()) {
                     Log.i(ReadWriteActivity.class.getName(), "记住了");
-                    File file = new File("data/data/com.example.ryan.hello/info.txt");
+                    //sd card path
+//                    File externalStorageDirectory = Environment.getExternalStorageDirectory();
+                    File file = new File(getFilesDir(), FILE_NAME);
+
                     try {
                         FileOutputStream outputStream = new FileOutputStream(file);
-                        outputStream.write((username+":"+password).getBytes());
+                        outputStream.write((username + NAME_SEPATATOR + password).getBytes());
 
-                    } catch (FileNotFoundException e) {e.printStackTrace();
-                    } catch (IOException e) {e.printStackTrace();}
+                        //通常写入SharedPreference 来保存密码
+                        SharedPreferences preferences = getSharedPreferences(SHARED_PREFERENCES_NAME, MODE_PRIVATE);
+                        SharedPreferences.Editor edit = preferences.edit();
+                        edit.putString("username", username);
+                        edit.putString("password", password);
+                        edit.commit();
+
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
                 } else {
                     Log.i(ReadWriteActivity.class.getName(), "No");
@@ -67,44 +91,32 @@ public class ReadWriteActivity extends AppCompatActivity {
             }
         });
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("ReadWrite Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
+    public void readAccount() throws IOException {
+
+//        File file = new File(FILE_PATH);
+        //getFilesDir 获取当前目录
+        File file = new File(getFilesDir(), FILE_NAME);
+
+        if (file.exists()) {
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String data = reader.readLine();
+            Log.i(ReadWriteActivity.class.getName(), "获取到数据：" + data);
+            String[] arr = data.split(NAME_SEPATATOR);
+            String name = arr[0];
+            String pass = arr[1];
+
+            et_name.setText(name);
+            et_pass.setText(pass);
+        }
+
+        //通过SharedPreferences来读文件
+        SharedPreferences preferences = getSharedPreferences(SHARED_PREFERENCES_NAME, MODE_PRIVATE);
+        preferences.getString("username", "");
+        preferences.getString("password", "");
+
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
-    }
 }

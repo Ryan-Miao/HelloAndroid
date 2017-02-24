@@ -2,8 +2,8 @@ package com.example.ryan.hello;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.text.Editable;
 import android.util.Log;
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //封装动作
                 intent.setAction(Intent.ACTION_CALL);
                 //设置打给谁
-                intent.setData(Uri.parse("tel:" + text.toString()));
+                intent.setData(Uri.parse("tel: dd" + text.toString()));
 
                 //把动作告诉系统
                 startActivity(intent);

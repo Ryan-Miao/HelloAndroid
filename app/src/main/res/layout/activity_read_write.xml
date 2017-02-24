@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="请输入密码"
-        android:inputType="textVisiblePassword"
+        android:inputType="textPassword"
         />
 
     <RelativeLayout
